@@ -2,9 +2,11 @@ package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -18,6 +20,10 @@ public class User {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
+    }
+
+    public User() {
+
     }
 
     public Long getUserId() {

@@ -2,9 +2,11 @@ package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "event_categories")
-public class EventCategory {
+public class EventCategory implements Serializable {
     @Id
     @Column(name = "event_id")
     private Long eventId;
@@ -16,6 +18,10 @@ public class EventCategory {
     public EventCategory(Long eventId, Long categoryId) {
         this.eventId = eventId;
         this.categoryId = categoryId;
+    }
+
+    public EventCategory() {
+
     }
 
     public Long getEventId() {

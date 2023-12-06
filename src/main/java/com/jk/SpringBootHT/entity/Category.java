@@ -2,9 +2,11 @@ package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
@@ -20,6 +22,10 @@ public class Category {
         this.categoryId = categoryId;
         this.userId = userId;
         this.categoryName = categoryName;
+    }
+
+    public Category() {
+
     }
 
     public Long getCategoryId() {

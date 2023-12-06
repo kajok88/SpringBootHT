@@ -2,12 +2,13 @@ package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
@@ -35,6 +36,10 @@ public class Event {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.dueDate = dueDate;
+    }
+
+    public Event() {
+
     }
 
     public Long getEventId() {
