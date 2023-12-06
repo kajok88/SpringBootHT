@@ -16,6 +16,12 @@ Käytetyt resurssit:
 - Backend: Spring Boot 3.1.6
 - Frontend: Thymeleaf
 
+___
+
+Käytetyt dependencyt:
+
+- Flyway tietokantamigraatiota varten
+
 Päädyin käyttämään MSSQL serverin versiota 19, sillä kyseinen 
 versio on minulle entuudestaan tuttu, ja halusin välttyä 
 mahdollisilta ajureiden yhteensopivuusongelmilta tämän 
