@@ -1,11 +1,13 @@
 package com.jk.SpringBootHT.entity;
 
+import com.jk.SpringBootHT.model.EventCategoryId;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
 @Table(name = "event_categories")
+@IdClass(EventCategoryId.class)
 public class EventCategory implements Serializable {
     @Id
     @Column(name = "event_id")
