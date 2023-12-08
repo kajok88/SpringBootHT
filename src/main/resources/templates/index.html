@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event CRUD</title>
+</head>
+<body>
+
+<!-- Create Event Form -->
+<form th:action="@{/events/create}" method="post" th:object="${event}">
+    <label for="eventTitle">Event Title:</label>
+    <input type="text" id="eventTitle" name="eventTitle" th:field="*{eventTitle}" required>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">Create Event</button>
+</form>
+
+<!-- Read All Events -->
+<h2>All Events</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event Title</th>
+        <th>Event Description</th>
+        <th>Event Date</th>
+        <th>Category</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Display all events here -->
+    <tr th:each="event : ${events}">
+        <td th:text="${event.eventTitle}"></td>
+        <td th:text="${event.eventDescription}"></td>
+        <td th:text="${event.eventDate}"></td>
+        <td th:text="${event.eventCategory}"></td>
+        <td>
+            <a th:href="@{/events/edit/{eventId}(eventId=${event.eventId})}">Edit</a>
+            <a th:href="@{/events/delete/{eventId}(eventId=${event.eventId})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -3,29 +3,75 @@ package com.jk.SpringBootHT.controller;
 import com.jk.SpringBootHT.entity.Event;
 import com.jk.SpringBootHT.repository.IEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("/events")
 public class TestiEventController {
+
+    private final IEventRepository eventRepository;
+
     @Autowired
-    IEventRepository iEventRepository;
-    @GetMapping("/events")
-    public ResponseEntity<List<Event>> getAllEvents(@RequestParam(required = false) String eventTitle){
-        try {
-            List<Event> events = new ArrayList<Event>();
-            return new ResponseEntity<>(events, HttpStatus.OK);
+    public TestiEventController(IEventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
+    // Read All Events
+    @GetMapping("/list")
+    public String listEvents(Model model) {
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        model.addAttribute("event", new Event()); // for the create form
+        return "index";
+    }
+
+    // Process form for creating a new event
+    @PostMapping("/create")
+    public String createEvent(@ModelAttribute Event event) {
+        eventRepository.save(event);
+        return "redirect:/events/list";
+    }
+
+    // Display form for updating an existing event
+    @GetMapping("/edit/{eventId}")
+    public String showUpdateForm(@PathVariable Long eventId, Model model) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            model.addAttribute("event", optionalEvent.get());
+        } else {
+            // Handle not found scenario
         }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return "index";
+    }
+
+    // Process form for updating an existing event
+    @PostMapping("/edit/{eventId}")
+    public String updateEvent(@PathVariable Long eventId, @ModelAttribute Event updatedEvent) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            // Update the fields of the existing event
+            event.setEventTitle(updatedEvent.getEventTitle());
+            event.setEventDescription(updatedEvent.getEventDescription());
+            event.setEventDate(updatedEvent.getEventDate());
+            // Update other fields as needed
+
+            eventRepository.save(event);
+        } else {
+            // Handle not found scenario
         }
+        return "redirect:/events/list";
+    }
+
+    // Delete an event
+    @GetMapping("/delete/{eventId}")
+    public String deleteEvent(@PathVariable Long eventId) {
+        eventRepository.deleteById(eventId);
+        return "redirect:/events/list";
     }
 }
