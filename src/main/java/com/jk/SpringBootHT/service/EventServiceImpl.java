@@ -8,7 +8,6 @@ import java.util.List;
 
 public class EventServiceImpl implements EventService{
 
-
     private IEventRepository eventRepository;
 
     @Override
