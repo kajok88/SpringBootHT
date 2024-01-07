@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -25,10 +27,16 @@ public class Event implements Serializable {
     private LocalTime eventTime;
     @Column(name = "due_date")
     private LocalDate dueDate;
+    @ManyToMany
+    @JoinTable(
+            name = "event_categories",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 
-    public Event(Long eventId, Long userId,
-                 String eventTitle, String eventDescription,
-                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate) {
+    public Event(Long eventId, Long userId, String eventTitle, String eventDescription,
+                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate, List<Category> categories) {
         this.eventId = eventId;
         this.userId = userId;
         this.eventTitle = eventTitle;
@@ -36,6 +44,7 @@ public class Event implements Serializable {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.dueDate = dueDate;
+        this.categories = categories;
     }
 
     public Event() {

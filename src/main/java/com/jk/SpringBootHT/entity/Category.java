@@ -3,6 +3,8 @@ package com.jk.SpringBootHT.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -18,10 +20,14 @@ public class Category implements Serializable {
     @Column(name = "category_name")
     private String categoryName;
 
-    public Category(Long categoryId, Long userId, String categoryName) {
+    @ManyToMany(mappedBy = "categories")
+    private List<Event> events = new ArrayList<>();
+
+    public Category(Long categoryId, Long userId, String categoryName, List<Event> events) {
         this.categoryId = categoryId;
         this.userId = userId;
         this.categoryName = categoryName;
+        this.events = events;
     }
 
     public Category() {

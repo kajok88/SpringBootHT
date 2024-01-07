@@ -1,7 +1,9 @@
 package com.jk.SpringBootHT.controller;
 
 import com.jk.SpringBootHT.entity.Event;
+import com.jk.SpringBootHT.entity.User;
 import com.jk.SpringBootHT.repository.IEventRepository;
+import com.jk.SpringBootHT.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,14 +13,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/events")
+//@RequestMapping("/events")
 public class TestiEventController {
 
-    private final IEventRepository eventRepository;
+    @Autowired
+    private IEventRepository eventRepository;
 
     @Autowired
-    public TestiEventController(IEventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    private IUserRepository userRepository;
+
+
+    @GetMapping("/users2")
+    @ResponseBody
+    public List<User> getAllEmployees() {
+        return userRepository.findAll();
+    }
+    @GetMapping("/users")
+    public String listAll(Model model) {
+        List<User> listUsers = userRepository.findAll();
+        model.addAttribute("listUsers", listUsers);
+
+        return "users";
     }
 
     // Read All Events
