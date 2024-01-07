@@ -42,7 +42,7 @@ public class TestiEventController {
         List<Event> events = eventRepository.findAll();
         model.addAttribute("events", events);
         model.addAttribute("event", new Event()); // for the create form
-        return "index";
+        return "index2";
     }
 
     // Process form for creating a new event
@@ -61,7 +61,7 @@ public class TestiEventController {
         } else {
             // Handle not found scenario
         }
-        return "index";
+        return "index2";
     }
 
     // Process form for updating an existing event
