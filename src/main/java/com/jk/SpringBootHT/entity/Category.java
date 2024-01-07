@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -21,9 +23,9 @@ public class Category implements Serializable {
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Event> events = new ArrayList<>();
+    private Set<Event> events = new HashSet<>();
 
-    public Category(Long categoryId, Long userId, String categoryName, List<Event> events) {
+    public Category(Long categoryId, Long userId, String categoryName, Set<Event> events) {
         this.categoryId = categoryId;
         this.userId = userId;
         this.categoryName = categoryName;
@@ -56,5 +58,13 @@ public class Category implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }

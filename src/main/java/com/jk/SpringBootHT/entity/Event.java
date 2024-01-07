@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -33,10 +35,10 @@ public class Event implements Serializable {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     public Event(Long eventId, Long userId, String eventTitle, String eventDescription,
-                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate, List<Category> categories) {
+                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate, Set<Category> categories) {
         this.eventId = eventId;
         this.userId = userId;
         this.eventTitle = eventTitle;
@@ -105,5 +107,13 @@ public class Event implements Serializable {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
