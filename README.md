@@ -28,3 +28,10 @@ mahdollisilta ajureiden yhteensopivuusongelmilta tämän
 harjoitustyön kanssa.
 
 Mikäli aikaa jää, saatan tehdä frontend:in Reactilla.
+
+
+## Huom.
+> Jos jos käytössä on LocalTime.now() -funktio ajan generoimiseen ja ohjelmaa käytetään klo 00 - 01 välisenä aikana, tulee ongelmia hibernaten kanssa,
+> kun se yrittää muuttaa SQL Time:n LocalTime:ksi. Päädyin siis käyttämään javacriptiä.
+> 
+> Aiheesta lisää: https://discourse.hibernate.org/t/hibernate-incorrectly-converting-sql-time-to-localtime-between-12am-and-1am-only-if-using-localtime-now/7866
