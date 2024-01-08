@@ -23,9 +23,9 @@ public class Category implements Serializable {
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Event> events = new HashSet<>();
+    private List<Event> events;
 
-    public Category(Long categoryId, Long userId, String categoryName, Set<Event> events) {
+    public Category(Long categoryId, Long userId, String categoryName, List<Event> events) {
         this.categoryId = categoryId;
         this.userId = userId;
         this.categoryName = categoryName;
@@ -60,11 +60,11 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public Set<Event> getEvents() {
+    public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<Event> events) {
+    public void setEvents(List<Event> events) {
         this.events = events;
     }
 }

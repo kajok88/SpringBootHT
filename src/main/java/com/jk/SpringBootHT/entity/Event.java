@@ -1,6 +1,7 @@
 package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class Event implements Serializable {
     private String eventTitle;
     @Column(name = "event_description")
     private String eventDescription;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "event_date")
     private LocalDate eventDate;
     @Column(name = "event_time")
@@ -35,10 +37,10 @@ public class Event implements Serializable {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories;
 
     public Event(Long eventId, Long userId, String eventTitle, String eventDescription,
-                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate, Set<Category> categories) {
+                 LocalDate eventDate, LocalTime eventTime, LocalDate dueDate, List<Category> categories) {
         this.eventId = eventId;
         this.userId = userId;
         this.eventTitle = eventTitle;
@@ -109,11 +111,11 @@ public class Event implements Serializable {
         this.dueDate = dueDate;
     }
 
-    public Set<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 }
