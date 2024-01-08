@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write It Down</title>
+</head>
+<body>
+<div>
+  <h1>Note Editor</h1>
+  <hr>
+
+  <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
+
+    <input type="hidden" th:field="*{eventId}" />
+
+    <label for="title"></label>
+    <input type="text" id="title" th:field="*{eventTitle}">
+
+    <label for="description"></label>
+    <input type="text" id="description" th:field="*{eventDescription}">
+
+    <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
+    <input type="hidden" id="eventTime" name="eventTime">
+
+    <!--    LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä
+    -->
+    <script th:inline="javascript">
+      var currentTime = new Date();
+
+      // Formatoidaan aika muotoon "HH:mm:ss"
+      var formattedTime = currentTime.toTimeString().slice(0, 8);
+      document.getElementById('eventTime').value = formattedTime;
+    </script>
+
+    <label for="dueDate">Due To:</label>
+    <input type="date" id="dueDate" th:field="*{dueDate}">
+
+    <label for="category"></label>
+    <input type="text" id="category" th:field="*{categories}">
+
+    <button type="submit"> Save Note</button>
+  </form>
+
+  <hr>
+
+  <a th:href="@{/}"> Back to Notes</a>
+</div>
+</body>
+
+</html>
