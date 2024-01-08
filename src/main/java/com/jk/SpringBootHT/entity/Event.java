@@ -24,7 +24,6 @@ public class Event implements Serializable {
     private String eventTitle;
     @Column(name = "event_description")
     private String eventDescription;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "event_date")
     private LocalDate eventDate;
     @Column(name = "event_time")
