@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add a note</title>
+    <title>Write It Down</title>
 </head>
 <body>
 <div>
@@ -17,7 +17,17 @@
     <input type="text" id="description" th:field="*{eventDescription}" placeholder="Description">
 
     <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
-    <input type="hidden" name="eventTime" th:value="${T(java.time.LocalTime).now()}">
+    <input type="hidden" id="eventTime" name="eventTime">
+
+<!--    LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä
+-->
+    <script th:inline="javascript">
+      var currentTime = new Date();
+
+      // Formatoidaan aika muotoon "HH:mm:ss"
+      var formattedTime = currentTime.toTimeString().slice(0, 8);
+      document.getElementById('eventTime').value = formattedTime;
+    </script>
 
     <label for="dueDate">Due To:</label>
     <input type="date" id="dueDate" th:field="*{dueDate}">
