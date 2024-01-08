@@ -30,8 +30,8 @@
             <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${event.categories}"></td>
             <td>
-                <a th:href="@{/events/edit/{eventId}(eventId=${event.eventId})}">Edit</a>
-                <a th:href="@{/events/delete/{eventId}(eventId=${event.eventId})}">Delete</a>
+                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>
+                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>
             </td>
         </tr>
         </tbody>
