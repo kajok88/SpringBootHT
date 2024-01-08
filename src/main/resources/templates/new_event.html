@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a note</title>
+</head>
+<body>
+<div>
+  <h1>Add a note</h1>
+  <hr>
+
+  <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
+    <label for="title"></label>
+    <input type="text" id="title" th:field="*{eventTitle}" placeholder="Title">
+
+    <label for="description"></label>
+    <input type="text" id="description" th:field="*{eventDescription}" placeholder="Description">
+
+    <label for="category"></label>
+    <input type="text" id="category" th:field="*{categories}" placeholder="Category">
+
+    <button type="submit"> Save Note</button>
+  </form>
+
+  <hr>
+
+  <a th:href="@{/}"> Back to Notes</a>
+</div>
+</body>
+
+</html>
