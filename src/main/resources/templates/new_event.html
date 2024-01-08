@@ -16,6 +16,12 @@
     <label for="description"></label>
     <input type="text" id="description" th:field="*{eventDescription}" placeholder="Description">
 
+    <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
+    <input type="hidden" name="eventTime" th:value="${T(java.time.LocalTime).now()}">
+
+    <label for="dueDate">Due To:</label>
+    <input type="date" id="dueDate" th:field="*{dueDate}">
+
     <label for="category"></label>
     <input type="text" id="category" th:field="*{categories}" placeholder="Category">
 
