@@ -17,6 +17,7 @@
             <th>Note Title</th>
             <th>Note Description</th>
             <th>Note Date</th>
+            <th>Note Due</th>
             <th>Category</th>
             <th>Action</th>
         </tr>
@@ -25,7 +26,8 @@
         <tr th:each="event : ${listEvents}">
             <td th:text="${event.eventTitle}"></td>
             <td th:text="${event.eventDescription}"></td>
-            <td th:text="${event.eventDate}"></td>
+            <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${event.categories}"></td>
             <td>
                 <a th:href="@{/events/edit/{eventId}(eventId=${event.eventId})}">Edit</a>
