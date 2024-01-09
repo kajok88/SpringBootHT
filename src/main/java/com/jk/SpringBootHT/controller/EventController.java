@@ -54,7 +54,11 @@ public class EventController {
     @GetMapping("/showEventEditForm/{id}")
     public String showEventEditForm(@PathVariable(value = "id") long id, Model model) {
         Event event = eventService.getEventById(id);
+        List<Category> allCategories = categoryService.getAllCategories();
+
         model.addAttribute("event", event);
+        model.addAttribute("allCategories", allCategories);
+
         return "edit_event";
     }
 
