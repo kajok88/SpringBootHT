@@ -8,6 +8,7 @@
 <div>
   <h1>Add a note</h1>
   <hr>
+  <a th:href="@{/showAddCategoryForm}"> Add Category </a>
 
   <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
     <label for="title"></label>
