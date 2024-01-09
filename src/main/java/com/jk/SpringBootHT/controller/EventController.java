@@ -1,20 +1,24 @@
 package com.jk.SpringBootHT.controller;
 
+import com.jk.SpringBootHT.entity.Category;
 import com.jk.SpringBootHT.entity.Event;
+import com.jk.SpringBootHT.service.CategoryService;
 import com.jk.SpringBootHT.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class EventController {
 
     @Autowired
     private EventService eventService;
+    @Autowired
+    private CategoryService categoryService;
     @GetMapping("/")
     public String showEvents(Model model) {
         model.addAttribute("listEvents", eventService.getAllEvents());
@@ -29,7 +33,24 @@ public class EventController {
     }
 
     @PostMapping("/saveEvent")
-    public String saveEvent(@ModelAttribute("event") Event event) {
+    public String saveEvent(@ModelAttribute("event") Event event,
+                            @RequestParam("categoryName") String categoryName) {
+        // Check if the category already exists
+        Category category = categoryService.getCategoryByName(categoryName);
+        if (category == null) {
+            // If not, create a new category
+            category = new Category();
+            category.setCategoryName(categoryName);
+            categoryService.saveCategory(category);
+        }
+        // Add the category to the event
+        List<Category> categories = event.getCategories();
+        if (categories == null) {
+            categories = new ArrayList<>();
+            event.setCategories(categories);
+        }
+        categories.add(category);
+
         eventService.saveEvent(event);
         return "redirect:/";
     }
