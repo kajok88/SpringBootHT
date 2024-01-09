@@ -28,7 +28,10 @@
             <td th:text="${event.eventDescription}"></td>
             <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
             <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
-            <td th:text="${event.categories}"></td>
+            <td>
+                <span th:each="category : ${event.categories}" th:text="${category.categoryName}"></span>
+            </td>
+
             <td>
                 <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>
                 <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>
