@@ -32,8 +32,14 @@
     <label for="dueDate">Due To:</label>
     <input type="date" id="dueDate" th:field="*{dueDate}">
 
-    <label for="categoryName"></label>
-    <input type="text" id="categoryName" name="categoryName" placeholder="Category">
+    <label for="categoryName">Select a category:</label>
+    <select id="categoryName" name="categoryName">
+      <option value="">Nothing selected</option>
+      <option th:each="category : ${allCategories}"
+              th:text="${category.categoryName}"
+              th:value="${category.categoryName}">
+      </option>
+    </select>
 
     <button type="submit"> Save Note</button>
   </form>

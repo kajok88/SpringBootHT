@@ -28,7 +28,11 @@ public class EventController {
     @GetMapping("/showAddEventForm")
     public String showAddEventForm(Model model) {
         Event event = new Event();
+        List<Category> allCategories = categoryService.getAllCategories();
+
         model.addAttribute("event", event);
+        model.addAttribute("allCategories", allCategories);
+
         return "new_event";
     }
 
