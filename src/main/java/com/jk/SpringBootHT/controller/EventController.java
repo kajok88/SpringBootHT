@@ -35,15 +35,11 @@ public class EventController {
     @PostMapping("/saveEvent")
     public String saveEvent(@ModelAttribute("event") Event event,
                             @RequestParam("categoryName") String categoryName) {
-        // Check if the category already exists
-        Category category = categoryService.getCategoryByName(categoryName);
-        if (category == null) {
-            // If not, create a new category
-            category = new Category();
-            category.setCategoryName(categoryName);
-            categoryService.saveCategory(category);
-        }
-        // Add the category to the event
+
+        // Luodaan tai tuodaan kategoria annetulla nimellä
+        Category category = categoryService.getOrCreateCategoryByName(categoryName);
+
+        // Alustetaan kategoria -lista eventille ja lisätään siihen kategoria
         List<Category> categories = event.getCategories();
         if (categories == null) {
             categories = new ArrayList<>();
@@ -54,6 +50,7 @@ public class EventController {
         eventService.saveEvent(event);
         return "redirect:/";
     }
+
     @GetMapping("/showEventEditForm/{id}")
     public String showEventEditForm(@PathVariable(value = "id") long id, Model model) {
         Event event = eventService.getEventById(id);

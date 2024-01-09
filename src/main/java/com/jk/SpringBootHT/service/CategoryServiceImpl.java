@@ -42,6 +42,17 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    public Category getOrCreateCategoryByName(String name) {
+        Category category = getCategoryByName(name);
+        if (category == null) {
+            category = new Category();
+            category.setCategoryName(name);
+            saveCategory(category);
+        }
+        return category;
+    }
+
+    @Override
     public void deleteCategoryById(long id){
         this.categoryRepository.deleteById(id);
     }
