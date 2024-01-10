@@ -6,13 +6,17 @@
 </head>
 <body>
 <div>
-    <h1>Add a category</h1>
+    <h1>Add a new category</h1>
     <hr>
+
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
     <form action="#" th:action="@{/addCategory}" method="POST">
         <label for="categoryTitle"></label>
         <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" required>
-        <button type="submit"> Save Category</button>
+        <button type="submit"> Add </button>
     </form>
 
     <table>
@@ -23,6 +27,7 @@
         </tr>
         </thead>
         <tbody>
+        <h2>My categories</h2>
         <tr th:each="category : ${allCategories}">
             <td th:text="${category.categoryName}"></td>
             <td>
