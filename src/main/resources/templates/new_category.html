@@ -13,7 +13,7 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form action="#" th:action="@{/addCategory}" method="POST">
+    <form action="#" th:action="@{/saveCategory}" method="POST">
         <label for="categoryTitle"></label>
         <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" required>
         <button type="submit"> Add </button>
@@ -31,8 +31,8 @@
         <tr th:each="category : ${allCategories}">
             <td th:text="${category.categoryName}"></td>
             <td>
-<!--                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>-->
-<!--                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>-->
+                <a th:href="@{/showCategoryEditForm/{id}(id=${category.categoryId})}">Edit</a>
+                <a th:href="@{/deleteCategory/{id}(id=${category.categoryId})}">Delete</a>
             </td>
         </tr>
         </tbody>

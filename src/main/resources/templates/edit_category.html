@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Write It Down</title>
+</head>
+<body>
+<h1>Category Editor</h1>
+
+<form action="#" th:action="@{/updateCategory}" method="post" th:object="${category}">
+  <input type="hidden" th:field="*{categoryId}"/>
+  <label for="categoryTitle">Category Name:</label>
+  <input type="text" id="categoryTitle" name="categoryTitle" th:field="*{categoryName}" required>
+  <button type="submit">Update Category</button>
+</form>
+
+<a th:href="@{/showAddCategoryForm}">Back to Categories</a>
+</body>
+</html>
