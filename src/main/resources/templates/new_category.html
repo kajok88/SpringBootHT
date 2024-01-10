@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write It Down</title>
+</head>
+<body>
+<div>
+    <h1>Add a category</h1>
+    <hr>
+
+    <form action="#" th:action="@{/saveCategory}" th:object="${category}" method="POST">
+        <label for="title"></label>
+        <input type="text" id="title" th:field="*{categoryName}" placeholder="Category name">
+
+        <button type="submit"> Save Note</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${listCategories}">
+            <td th:text="${category.categoryName}"></td>
+            <td>
+                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>
+                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <a th:href="@{/}"> Back to Notes</a>
+</div>
+</body>
+
+</html>
