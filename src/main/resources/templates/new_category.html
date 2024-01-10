@@ -9,11 +9,10 @@
     <h1>Add a category</h1>
     <hr>
 
-    <form action="#" th:action="@{/saveCategory}" th:object="${category}" method="POST">
-        <label for="title"></label>
-        <input type="text" id="title" th:field="*{categoryName}" placeholder="Category name">
-
-        <button type="submit"> Save Note</button>
+    <form action="#" th:action="@{/addCategory}" method="POST">
+        <label for="categoryTitle"></label>
+        <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" required>
+        <button type="submit"> Save Category</button>
     </form>
 
     <table>
@@ -24,11 +23,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="category : ${listCategories}">
+        <tr th:each="category : ${allCategories}">
             <td th:text="${category.categoryName}"></td>
             <td>
-                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>
-                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>
+<!--                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}">Edit</a>-->
+<!--                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}">Delete</a>-->
             </td>
         </tr>
         </tbody>
