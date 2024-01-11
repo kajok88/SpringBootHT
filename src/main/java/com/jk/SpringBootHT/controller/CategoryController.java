@@ -34,7 +34,7 @@ public class CategoryController {
         Category existingCategory = categoryService.getCategoryByName(newCategoryTitle);
         if (existingCategory != null) {
             // Jos löytyy, lähetetään virhe ilmoitus redirect -sivulle
-            redirectAttributes.addFlashAttribute("errorMessage", "Category already exists");
+            redirectAttributes.addFlashAttribute("errorMessage", "Category '" + newCategoryTitle + "' already exists");
         } else {
             Category category = new Category();
             category.setCategoryName(newCategoryTitle);
