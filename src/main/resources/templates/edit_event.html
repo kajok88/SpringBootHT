@@ -2,56 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Write It Down</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Write It Down</title>
 </head>
-<body>
-<div>
-  <h1>Note Editor</h1>
-  <hr>
-  <a th:href="@{/showAddCategoryForm}"> Add Category </a>
+<body class="container p-5 my-5 border">
+  <div>
+    <h1>Note Editor</h1>
+    <hr>
+    <a th:href="@{/showAddCategoryForm}" class="btn btn-primary btn-sm mb-4"> Add Category </a>
 
-  <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
+    <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
 
-    <input type="hidden" th:field="*{eventId}" />
+      <input type="hidden" th:field="*{eventId}" />
 
-    <label for="title"></label>
-    <input type="text" id="title" th:field="*{eventTitle}">
+      <label for="title">Title:</label>
+      <input type="text" id="title" th:field="*{eventTitle}" class="form-control mb-4 col-4">
 
-    <label for="description"></label>
-    <input type="text" id="description" th:field="*{eventDescription}">
+      <label for="description">Description:</label>
+      <input type="text" id="description" th:field="*{eventDescription}" class="form-control mb-4 col-4">
 
-    <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
-    <input type="hidden" id="eventTime" name="eventTime">
+      <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
+      <input type="hidden" id="eventTime" name="eventTime">
 
-    <!--    LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä
-    -->
-    <script th:inline="javascript">
-      var currentTime = new Date();
+      <!--    LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä
+      -->
+      <script th:inline="javascript">
+        var currentTime = new Date();
 
-      // Formatoidaan aika muotoon "HH:mm:ss"
-      var formattedTime = currentTime.toTimeString().slice(0, 8);
-      document.getElementById('eventTime').value = formattedTime;
-    </script>
+        // Formatoidaan aika muotoon "HH:mm:ss"
+        var formattedTime = currentTime.toTimeString().slice(0, 8);
+        document.getElementById('eventTime').value = formattedTime;
+      </script>
 
-    <label for="dueDate">Due To:</label>
-    <input type="date" id="dueDate" th:field="*{dueDate}">
+      <div class="mb-4 col-4">
+        <label for="categoryName">Select a category:</label>
+        <select id="categoryName" name="categoryName">
+          <option value="">Nothing selected</option>
+          <option th:each="category : ${allCategories}"
+                  th:text="${category.categoryName}"
+                  th:value="${category.categoryName}">
+          </option>
+        </select>
+      </div>
 
-    <label for="categoryName">Select a category:</label>
-    <select id="categoryName" name="categoryName">
-      <option value="">Nothing selected</option>
-      <option th:each="category : ${allCategories}"
-              th:text="${category.categoryName}"
-              th:value="${category.categoryName}">
-      </option>
-    </select>
+      <div class="mb-4 col-4">
+        <label for="dueDate">Due To:</label>
+        <input type="date" id="dueDate" th:field="*{dueDate}">
+      </div>
 
-    <button type="submit"> Save Note</button>
-  </form>
 
-  <hr>
+      <button type="submit" class="btn btn-secondary"> Save Note</button>
+    </form>
 
-  <a th:href="@{/}"> Back to Notes</a>
-</div>
+    <hr>
+
+    <a th:href="@{/}" class="btn btn-outline-primary"> Back to Notes</a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </body>
 
 </html>
