@@ -1,13 +1,10 @@
 package com.jk.SpringBootHT.controller;
 
 import com.jk.SpringBootHT.entity.Category;
-import com.jk.SpringBootHT.entity.Event;
 import com.jk.SpringBootHT.entity.EventCategory;
 import com.jk.SpringBootHT.service.CategoryService;
 import com.jk.SpringBootHT.service.EventCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +27,9 @@ public class CategoryController {
     }
     @PostMapping("saveCategory")
     public String saveCategory(@RequestParam("categoryTitle") String newCategoryTitle, RedirectAttributes redirectAttributes) {
+        if (!newCategoryTitle.startsWith("#")) {
+            newCategoryTitle = "#" + newCategoryTitle;
+        }
         // Tarkastetaan, löytyykö kyseinen kategoria ennestään
         Category existingCategory = categoryService.getCategoryByName(newCategoryTitle);
         if (existingCategory != null) {

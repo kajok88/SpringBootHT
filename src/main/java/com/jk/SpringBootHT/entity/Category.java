@@ -3,10 +3,7 @@ package com.jk.SpringBootHT.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -57,7 +54,13 @@ public class Category implements Serializable {
     }
 
     public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+
+        // Lisätään '#' jokaisen kategoria -nimen eteen
+        if (!categoryName.startsWith("#")) {
+            this.categoryName = "#" + categoryName;
+        } else {
+            this.categoryName = categoryName;
+        }
     }
 
     public List<Event> getEvents() {
