@@ -1,7 +1,6 @@
 package com.jk.SpringBootHT.service;
 
 import com.jk.SpringBootHT.entity.Event;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
