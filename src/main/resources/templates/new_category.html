@@ -8,8 +8,29 @@
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <title>Write It Down</title>
 </head>
-<body class="container p-5 my-5 border">
+<body>
     <div>
+        <nav class="navbar navbar-dark fixed-top bg-primary mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Write It Down</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a th:href="@{/}" class="nav-link" href="#">Notes</a>
+                        <a th:href="@{/}" class="nav-link" href="#">Categories</a>
+                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-user"></span> Sign In</a>
+                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
+                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container p-5 my-5 border">
         <h1>Add a new category</h1>
         <hr>
 
