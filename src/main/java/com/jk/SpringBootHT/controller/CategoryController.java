@@ -27,7 +27,7 @@ public class CategoryController {
     }
     @PostMapping("saveCategory")
     public String saveCategory(@RequestParam("categoryTitle") String newCategoryTitle, RedirectAttributes redirectAttributes) {
-        if (!newCategoryTitle.startsWith("#")) {
+        if (!newCategoryTitle.startsWith("#") && !newCategoryTitle.equals("")) {
             newCategoryTitle = "#" + newCategoryTitle;
         }
         // Tarkastetaan, löytyykö kyseinen kategoria ennestään

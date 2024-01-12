@@ -56,7 +56,7 @@ public class Category implements Serializable {
     public void setCategoryName(String categoryName) {
 
         // Lisätään '#' jokaisen kategoria -nimen eteen
-        if (!categoryName.startsWith("#")) {
+        if (!categoryName.startsWith("#") && !categoryName.equals("")) {
             this.categoryName = "#" + categoryName;
         } else {
             this.categoryName = categoryName;
