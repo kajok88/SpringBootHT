@@ -1,3 +1,10 @@
+-- THIS IS THE MIGRATION FILE FOR MS SQL SERVER DATABASE
+-- USED BY PROD PROFILE
+
+-- Make sure to first create a database in MS SQL server, that is named accordingly to the datasource.url
+-- in application-prod.properties
+
+
 -- Users table to store user information
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'users')
 BEGIN
