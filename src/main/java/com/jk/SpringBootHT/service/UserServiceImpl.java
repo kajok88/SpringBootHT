@@ -1,6 +1,7 @@
 package com.jk.SpringBootHT.service;
 
 import com.jk.SpringBootHT.entity.User;
+import com.jk.SpringBootHT.model.UserDto;
 import com.jk.SpringBootHT.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,13 +12,14 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private IUserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
-    public void saveUser(User newuser){
+    public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        user.setUsername(userDto.getUsername());
+        // user.setPasswordHash(passwordEncoder.encode(userDto.getPlainPassword()));
         userRepository.save(user);
     }
 
@@ -25,4 +27,11 @@ public class UserServiceImpl implements UserService{
     public User findByUsername(String username){
         return userRepository.findByUsername(username);
     }
+
+    private UserDto mapToUserDto(User user){
+        UserDto userDto = new UserDto();
+        userDto.setUsername(user.getUsername());
+        return userDto;
+    }
+
 }
