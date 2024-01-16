@@ -13,6 +13,7 @@ BEGIN
         user_id INT PRIMARY KEY IDENTITY(1,1),
         username VARCHAR(255) NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
+        user_role VARCHAR(255) NOT NULL,
         -- Add other user-related fields as needed
         CONSTRAINT unique_username UNIQUE (username)
     );

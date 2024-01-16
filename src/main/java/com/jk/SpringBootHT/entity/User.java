@@ -1,12 +1,15 @@
 package com.jk.SpringBootHT.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -15,11 +18,14 @@ public class User implements Serializable {
     private String username;
     @Column(name = "password_hash")
     private String passwordHash;
+    @Column(name = "user_role")
+    private String role;
 
-    public User(Long userId, String username, String passwordHash) {
+    public User(Long userId, String username, String passwordHash, String role) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
+        this.role = role;
     }
 
     public User() {
@@ -34,8 +40,38 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setUsername(String username) {
@@ -49,4 +85,14 @@ public class User implements Serializable {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
 }

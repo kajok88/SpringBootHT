@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
+    user_role VARCHAR(255) NOT NULL,
     -- Add other user-related fields as needed
     CONSTRAINT unique_username UNIQUE (username)
     );
