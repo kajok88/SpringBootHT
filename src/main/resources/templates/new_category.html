@@ -41,8 +41,16 @@
 
         <form action="#" th:action="@{/saveCategory}" method="POST">
             <label for="categoryTitle">Category name:</label>
-            <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" class="form-control mb-2 col-4" required>
-            <button type="submit" class="btn btn-primary btn-sm mb-4"> Add </button>
+            <div sec:authorize="isAuthenticated()">
+                <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" class="form-control mb-2 col-4" th:required="required">
+                <button type="submit" class="btn btn-primary btn-sm mb-4"> Add </button>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <input readonly="readonly" type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" class="form-control mb-2 col-4" th:required="required">
+                <button readonly="readonly" class="btn btn-primary btn-sm mb-4"> Add </button>
+                <button th:disabled class="btn btn-primary btn-sm mb-4"> Add </button>
+            </div>
+
         </form>
 
         <table id="searchTable" class="table table-hover">
