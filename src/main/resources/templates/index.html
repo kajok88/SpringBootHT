@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -8,66 +8,50 @@
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Write It Down</title>
-</head>
-<body>
-    <div>
-        <nav class="navbar navbar-dark fixed-top bg-primary mb-4">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Write It Down</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
-                        <a th:href="@{/}" class="nav-link" href="#">Notes</a>
-                        <a th:href="@{/}" class="nav-link" href="#">Categories</a>
-                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-user"></span> Sign In</a>
-                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
-                        <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/layout :: header}"></div>
     <div class="container p-5 my-5 border">
-        <div>
-            <h1>Notes</h1>
+      <div th:replace="~{fragments/layout :: unauthorized(text='Please log in to view your notes.')}"></div>
+      <div>
+        <h1>Notes</h1>
 
-            <a th:href="@{/showAddEventForm}" class="btn btn-primary btn-sm mb-4"> Add Note </a>
-            <a th:href="@{/showAddCategoryForm}" class="btn btn-primary btn-sm mb-4" > Add Category </a>
+        <a th:href="@{/showAddEventForm}" class="btn btn-primary btn-sm mb-4"> Add Note </a>
+        <a th:href="@{/showAddCategoryForm}" class="btn btn-primary btn-sm mb-4" > Add Category </a>
 
-            <table id="searchTable" class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Note Title</th>
-                    <th>Note Description</th>
-                    <th>Note Date</th>
-                    <th>Note Due</th>
-                    <th>Category</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <div sec:authorize="isAuthenticated()">
-                        <tr th:each="event : ${listEvents}">
-                            <td th:text="${event.eventTitle}"></td>
-                            <td th:text="${event.eventDescription}"></td>
-                            <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
-                            <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
-                            <td>
-                                <span th:each="category : ${event.categories}" th:text="${category.categoryName}"></span>
-                            </td>
 
-                            <td>
-                                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}" class="btn btn-primary">Edit</a>
-                                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    </div>
-                </tbody>
-            </table>
-        </div>
+
+        <table id="searchTable" class="table table-hover">
+          <thead>
+            <tr>
+              <th>Note Title</th>
+              <th>Note Description</th>
+              <th>Note Date</th>
+              <th>Note Due</th>
+              <th>Category</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div sec:authorize="isAuthenticated()">
+              <tr th:each="event : ${listEvents}">
+                <td th:text="${event.eventTitle}"></td>
+                <td th:text="${event.eventDescription}"></td>
+                <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
+                <td>
+                  <span th:each="category : ${event.categories}" th:text="${category.categoryName}"></span>
+                </td>
+
+                <td>
+                  <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}" class="btn btn-primary">Edit</a>
+                  <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -79,6 +63,6 @@
         new DataTable('#searchTable');
     </script>
 
-</body>
+  </body>
 
 </html>
