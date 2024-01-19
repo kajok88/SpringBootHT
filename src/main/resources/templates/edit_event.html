@@ -13,50 +13,9 @@
   <div class="container p-5 my-5 border">
     <h1>Note Editor</h1>
     <hr>
-    <a th:href="@{/showAddCategoryForm}" class="btn btn-primary btn-sm mb-4"> Add Category </a>
 
-    <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
-
-      <input type="hidden" th:field="*{eventId}" />
-
-      <label for="title">Title:</label>
-      <input type="text" id="title" th:field="*{eventTitle}" class="form-control mb-4 col-4">
-
-      <label for="description">Description:</label>
-      <input type="text" id="description" th:field="*{eventDescription}" class="form-control mb-4 col-4">
-
-      <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
-      <input type="hidden" id="eventTime" name="eventTime">
-
-      <!--    LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä
-      -->
-      <script th:inline="javascript">
-        var currentTime = new Date();
-
-        // Formatoidaan aika muotoon "HH:mm:ss"
-        var formattedTime = currentTime.toTimeString().slice(0, 8);
-        document.getElementById('eventTime').value = formattedTime;
-      </script>
-
-      <div class="mb-4 col-4">
-        <label for="categoryName">Select a category:</label>
-        <select id="categoryName" name="categoryName">
-          <option value="">Nothing selected</option>
-          <option th:each="category : ${allCategories}"
-                  th:text="${category.categoryName}"
-                  th:value="${category.categoryName}">
-          </option>
-        </select>
-      </div>
-
-      <div class="mb-4 col-4">
-        <label for="dueDate">Due To:</label>
-        <input type="date" id="dueDate" th:field="*{dueDate}">
-      </div>
-
-
-      <button type="submit" class="btn btn-secondary"> Save Note</button>
-    </form>
+<!--    Ei vielä toimi-->
+    <div th:replace="~{fragments/layout :: eventForm}" th:with="editMode = ${true}"></div>
 
     <hr>
 

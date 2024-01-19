@@ -23,8 +23,8 @@
             <a th:href="@{/}" class="nav-link" href="#">Notes</a>
             <a th:href="@{/}" class="nav-link" href="#">Categories</a>
             <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-user"></span> Sign In</a>
-            <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
-            <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
+            <a th:href="@{/login}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
+            <a th:href="@{/logout}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
           </div>
         </div>
       </div>
@@ -47,6 +47,61 @@
       <div sec:authorize="isAnonymous()" class="alert alert-warning">
         <p th:text="${text}"></p>
       </div>
+    </div>
+
+    <div th:fragment="eventForm">
+      <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
+        <div class="mb-4">
+          <div class="col-4">
+            <label for="categoryName">Select a category:</label>
+            <select id="categoryName" name="categoryName" class="form-select"
+                    th:disabled="${#authorization.expression('isAnonymous')}">
+              <option value="">Nothing selected</option>
+              <option th:each="category : ${allCategories}"
+                      th:text="${category.categoryName}"
+                      th:value="${category.categoryName}"></option>
+            </select>
+          </div>
+          <div class="col-4 mt-2">
+            <button type="button" class="btn btn-primary btn-sm mb-4" onclick="location.href='/showAddCategoryForm';">
+              Add Category
+            </button>
+          </div>
+
+          <div th:if="${editMode}">
+            <input type="hidden" th:field="*{eventId}" />
+          </div>
+
+          <label for="title">Title</label>
+          <input type="text" id="title" th:field="*{eventTitle}" placeholder="Title"
+                 class="form-control mb-4 col-4" th:disabled="${#authorization.expression('isAnonymous')}">
+
+          <label for="description">Description</label>
+          <input type="text" id="description" th:field="*{eventDescription}" placeholder="Description"
+                 class="form-control mb-4 col-4" th:disabled="${#authorization.expression('isAnonymous')}">
+
+          <input type="hidden" name="eventDate" th:value="${T(java.time.LocalDate).now()}">
+          <input type="hidden" id="eventTime" name="eventTime" class="form-control mb-4 col-4">
+
+          <!-- LocalTime.now() tuotti ongelmia, joten tein ajan generoimisen javascriptillä -->
+          <script th:inline="javascript">
+            var currentTime = new Date();
+
+            // Formatoidaan aika muotoon "HH:mm:ss"
+            var formattedTime = currentTime.toTimeString().slice(0, 8);
+            document.getElementById('eventTime').value = formattedTime;
+          </script>
+
+          <div class="mb-4 col-4">
+            <label for="dueDate">Due To:</label>
+            <input type="date" id="dueDate" th:field="*{dueDate}" th:disabled="${#authorization.expression('isAnonymous')}">
+          </div>
+
+          <button type="submit" class="btn btn-secondary" th:disabled="${#authorization.expression('isAnonymous')}">
+            Save Note
+          </button>
+        </div>
+      </form>
     </div>
 
 
