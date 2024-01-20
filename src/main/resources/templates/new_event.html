@@ -14,11 +14,9 @@
       <h1>Add a note</h1>
       <hr>
       <div th:replace="~{fragments/layout :: unauthorized(text='Please log in to perform this action.')}"></div>
-
-      <div th:replace="~{fragments/layout :: eventForm}"></div>
+      <div th:replace="~{fragments/layout :: eventForm(editMode=false)}"></div>
       <hr>
-
-      <a th:href="@{/}" class="btn btn-outline-primary"> Back to Notes</a>
+      <div th:replace="~{fragments/layout :: ButtonBackToNotes}"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
