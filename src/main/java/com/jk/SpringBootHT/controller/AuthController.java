@@ -18,8 +18,13 @@ public class AuthController {
 
     // handler method to handle home page request
     @GetMapping("/login")
-    public String home(){
+    public String login(){
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "logout";
     }
 
     // handler method to handle user registration form request
