@@ -1,6 +1,7 @@
 package com.jk.SpringBootHT.controller;
 
 import com.jk.SpringBootHT.entity.Category;
+import com.jk.SpringBootHT.entity.Event;
 import com.jk.SpringBootHT.entity.EventCategory;
 import com.jk.SpringBootHT.service.CategoryService;
 import com.jk.SpringBootHT.service.EventCategoryService;
@@ -30,8 +31,16 @@ public class CategoryController {
     public String listCategories(Model model){
         List<Category> allCategories = categoryService.getAllCategories();
         model.addAttribute("allCategories", allCategories);
-        return "listCategories";
+        return "list_categories";
     }
+
+    @GetMapping("listEventsByCategory/{id}")
+    public String listEventsByCategory(Model model) {
+        List<Event> eventsByCategory = eventCategoryService.getEventByCategoryId();
+
+        return "category_by_name";
+    }
+
     @PostMapping("saveCategory")
     public String saveCategory(@RequestParam("categoryTitle") String newCategoryTitle, RedirectAttributes redirectAttributes) {
         if (!newCategoryTitle.startsWith("#") && !newCategoryTitle.equals("")) {
