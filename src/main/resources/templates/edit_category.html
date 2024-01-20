@@ -21,7 +21,8 @@
       <button type="submit" class="btn btn-primary btn-sm mb-4">Update Category</button>
     </form>
 
-    <a th:href="@{/showAddCategoryForm}" class="btn btn-outline-primary">Back to Categories</a>
+    <hr>
+    <div th:replace="~{fragments/layout :: ButtonBackToCategories}"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
