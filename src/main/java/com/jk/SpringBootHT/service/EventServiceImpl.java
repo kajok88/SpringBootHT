@@ -31,7 +31,7 @@ public class EventServiceImpl implements EventService{
         if (optional.isPresent()) {
             event = optional.get();
         } else {
-            throw new RuntimeException(" Event not found by id :: " + id);
+            throw new RuntimeException(" Note not found by id : " + id);
         }
         return event;
     }
