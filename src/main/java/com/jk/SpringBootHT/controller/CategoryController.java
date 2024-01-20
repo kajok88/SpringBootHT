@@ -19,11 +19,18 @@ public class CategoryController {
     @Autowired
     private EventCategoryService eventCategoryService;
 
+
     @GetMapping("/showAddCategoryForm")
     public String showAddCategoryForm(Model model){
         List<Category> allCategories = categoryService.getAllCategories();
         model.addAttribute("allCategories", allCategories);
         return "new_category";
+    }
+    @GetMapping("/listCategories")
+    public String listCategories(Model model){
+        List<Category> allCategories = categoryService.getAllCategories();
+        model.addAttribute("allCategories", allCategories);
+        return "listCategories";
     }
     @PostMapping("saveCategory")
     public String saveCategory(@RequestParam("categoryTitle") String newCategoryTitle, RedirectAttributes redirectAttributes) {
