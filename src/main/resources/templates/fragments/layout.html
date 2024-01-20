@@ -3,26 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Layout</title>
+<title>Layout</title>
 </head>
 <body>
   <header th:fragment="header">
     <nav class="navbar navbar-dark fixed-top bg-primary mb-4">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Write It Down</a>
+        <a class="navbar-brand" href="/">Write It Down</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
-            <a th:href="@{/}" class="nav-link" href="#">Notes</a>
-            <a th:href="@{/}" class="nav-link" href="#">Categories</a>
-            <a th:href="@{/}" class="btn btn-primary"><span class="fa fa-user"></span> Sign In</a>
+            <a th:href="@{/listEvents}" class="nav-link" href="#">Notes</a>
+            <a th:href="@{/listCategories}" class="nav-link" href="#">Categories</a>
+            <a th:href="@{/register}" class="btn btn-primary"><span class="fa fa-user"></span> Sign Up</a>
             <a th:href="@{/login}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
             <a th:href="@{/logout}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
           </div>
@@ -34,7 +30,7 @@
 
   </div>
   <div class="container p-5 my-5 border">
-    <h1>Add a new category</h1>
+    <h1>Fragments</h1>
     <hr>
 
     <div th:fragment="errorMessage">
@@ -49,8 +45,8 @@
       </div>
     </div>
 
-    <div th:fragment="eventForm">
-      <form action="#" th:action="@{/saveEvent}" th:object="${event}" method="POST">
+    <div th:fragment="eventForm(editMode)">
+      <form action="#" th:action="@{/saveOrUpdateEvent}" th:object="${event}" method="POST">
         <div class="mb-4">
           <div class="col-4">
             <label for="categoryName">Select a category:</label>
@@ -104,53 +100,53 @@
       </form>
     </div>
 
+    <div th:fragment="MyCategories">
+      <table id="searchTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr sec:authorize="isAuthenticated()" th:each="category : ${allCategories}">
+            <td th:text="${category.categoryName}"></td>
+            <td>
+              <a th:href="@{/showCategoryEditForm/{id}(id=${category.categoryId})}" class="btn btn-primary">Edit</a>
+              <a th:href="@{/deleteCategory/{id}(id=${category.categoryId})}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <form action="#" th:action="@{/saveCategory}" method="POST">
-      <label for="categoryTitle">Category name:</label>
-      <div sec:authorize="isAuthenticated()">
-        <input type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" class="form-control mb-2 col-4" th:required="required">
-        <button type="submit" class="btn btn-primary btn-sm mb-4"> Add </button>
-      </div>
-      <div sec:authorize="isAnonymous()">
-        <input readonly="readonly" type="text" id="categoryTitle" placeholder="Category name" name="categoryTitle" class="form-control mb-2 col-4" th:required="required">
-        <button class="btn btn-primary btn-sm mb-4" th:disabled="${true}">Add</button>
-      </div>
 
-    </form>
+    <div th:fragment="ButtonAddNote">
+      <button type="button" onclick="location.href='/showAddEventForm';" class="btn btn-primary btn-sm mb-4">
+        Add Note
+      </button>
+    </div>
 
-    <table id="searchTable" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <h2>My categories</h2>
-        <div sec:authorize="isAnonymous()" class="alert alert-warning">
-          <p>Please log in to view your categories.</p>
-        </div>
-        <tr sec:authorize="isAuthenticated()" th:each="category : ${allCategories}">
-          <td th:text="${category.categoryName}"></td>
-          <td>
-            <a th:href="@{/showCategoryEditForm/{id}(id=${category.categoryId})}" class="btn btn-primary">Edit</a>
-            <a th:href="@{/deleteCategory/{id}(id=${category.categoryId})}" class="btn btn-danger">Delete</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <hr>
+    <div th:fragment="ButtonAddCategory">
+      <button type="button" onclick="location.href='/showAddCategoryForm';" class="btn btn-primary btn-sm mb-4">
+        Add Category
+      </button>
+    </div>
 
-    <a th:href="@{/}" class="btn btn-outline-primary"> Back to Notes</a>
+    <div th:fragment="ButtonBackToNotes">
+      <button type="button" onclick="location.href='/listEvents';" class="btn btn-outline-primary">
+        Back to Notes
+      </button>
+    </div>
+
+    <div th:fragment="ButtonBackToCategories">
+      <button type="button" onclick="location.href='/listCategories';" class="btn btn-outline-primary">
+        Back to Categories
+      </button>
+    </div>
+
+
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-  <script>
-    new DataTable('#searchTable');
-  </script>
 </body>
 
 </html>
