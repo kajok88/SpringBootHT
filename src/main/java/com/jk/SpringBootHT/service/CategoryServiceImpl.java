@@ -41,12 +41,14 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.findByCategoryName(name);
     }
 
+
+    // Jos halutaan tehdä tyhjästä kategoria syötteestä #undefied
     @Override
     public Category getOrCreateCategoryByName(String name) {
         Category category = getCategoryByName(name);
         if (category == null) {
             category = new Category();
-            category.setCategoryName(name);
+            category.setCategoryName("#undefined");
             saveCategory(category);
         }
         return category;
