@@ -24,6 +24,11 @@ public class EventController {
         model.addAttribute("listEvents", eventService.getAllEvents());
         return "index";
     }
+    @GetMapping("/listEvents")
+    public String listEvents(Model model) {
+        model.addAttribute("listEvents", eventService.getAllEvents());
+        return "listEvents";
+    }
 
     @GetMapping("/showAddEventForm")
     public String showAddEventForm(Model model) {
@@ -36,12 +41,13 @@ public class EventController {
         return "new_event";
     }
 
-    @PostMapping("/saveEvent")
+    // Käytetään tallentamiseen tai päivittämiseen.
+    @PostMapping("/saveOrUpdateEvent")
     public String saveEvent(@ModelAttribute("event") Event event,
                             @RequestParam("categoryName") String categoryName) {
 
         // Luodaan tai tuodaan kategoria annetulla nimellä
-        Category category = categoryService.getOrCreateCategoryByName(categoryName);
+        Category category = categoryService.getCategoryByName(categoryName);
 
         // Alustetaan kategoria -lista eventille ja lisätään siihen kategoria
         List<Category> categories = event.getCategories();
@@ -52,8 +58,9 @@ public class EventController {
         categories.add(category);
 
         eventService.saveEvent(event);
-        return "redirect:/";
+        return "redirect:/listEvents";
     }
+
 
     @GetMapping("/showEventEditForm/{id}")
     public String showEventEditForm(@PathVariable(value = "id") long id, Model model) {
@@ -69,6 +76,6 @@ public class EventController {
     @GetMapping("/deleteEvent/{id}")
     public String deleteEmployee(@PathVariable(value = "id") long id) {
         this.eventService.deleteEventById(id);
-        return "redirect:/";
+        return "redirect:/listEvents";
     }
 }
