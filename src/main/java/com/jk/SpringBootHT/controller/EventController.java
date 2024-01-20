@@ -27,7 +27,20 @@ public class EventController {
     @GetMapping("/listEvents")
     public String listEvents(Model model) {
         model.addAttribute("listEvents", eventService.getAllEvents());
-        return "listEvents";
+        return "list_events";
+    }
+
+    @GetMapping("/showEvent/{id}")
+    public String showEventById(@PathVariable Long id, Model model) {
+        try {
+            Event event = eventService.getEventById(id);
+            model.addAttribute("event", event);
+            return "event_by_id";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "list_events";  // Assuming you have a Thymeleaf template named "error"
+        }
+
     }
 
     @GetMapping("/showAddEventForm")
