@@ -25,34 +25,7 @@
           </div>
         </div>
 
-        <table id="searchTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Note Title</th>
-              <th>Note Description</th>
-              <th>Note Date</th>
-              <th>Note Due</th>
-              <th>Category</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody sec:authorize="isAuthenticated()">
-            <tr th:each="event : ${listEvents}">
-              <td th:text="${event.eventTitle}"></td>
-              <td th:text="${event.eventDescription}"></td>
-              <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
-              <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
-              <td>
-                <span th:each="category : ${event.categories}" th:text="${category.categoryName}"></span>
-              </td>
-
-              <td>
-                <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}" class="btn btn-primary">Edit</a>
-                <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}" class="btn btn-danger">Delete</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div th:replace="~{fragments/layout :: ListEvents(ifSearchByCategory=false)}"></div>
       </div>
     </div>
 
