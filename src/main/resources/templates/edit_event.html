@@ -13,7 +13,7 @@
     <div class="container p-5 my-5 border">
       <h1>Note Editor</h1>
       <hr>
-      <div th:replace="fragments/layout :: eventForm(editMode=true)"></div>
+      <div th:replace="fragments/layout :: eventForm(ifEdited=true)"></div>
       <hr>
       <div th:replace="~{fragments/layout :: ButtonBackToNotes}"></div>
     </div>
