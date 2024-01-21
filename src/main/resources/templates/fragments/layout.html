@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div th:fragment="eventForm(editMode)">
+    <div th:fragment="eventForm(ifEdited)">
       <form action="#" th:action="@{/saveOrUpdateEvent}" th:object="${event}" method="POST">
         <div class="mb-4">
           <div class="col-4">
@@ -64,7 +64,7 @@
             </button>
           </div>
 
-          <div th:if="${editMode}">
+          <div th:if="${ifEdited}">
             <input type="hidden" th:field="*{eventId}" />
           </div>
 
@@ -110,12 +110,46 @@
         </thead>
         <tbody>
           <tr sec:authorize="isAuthenticated()" th:each="category : ${allCategories}">
-            <td th:text="${category.categoryName}"></td>
+            <td>
+              <a th:href="@{/listEventsByCategory/{id}(id=${category.categoryId})}" th:text="${category.categoryName}"></a>
+            </td>
             <td>
               <a th:href="@{/showCategoryEditForm/{id}(id=${category.categoryId})}" class="btn btn-primary">Edit</a>
               <a th:href="@{/deleteCategory/{id}(id=${category.categoryId})}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div th:fragment="ListEvents(ifSearchByCategory)">
+      <table id="searchTable" class="table table-hover">
+        <thead>
+        <tr>
+          <th>Note Title</th>
+          <th>Note Description</th>
+          <th>Note Date</th>
+          <th>Note Due</th>
+          <th th:if="${!ifSearchByCategory}">Category</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody sec:authorize="isAuthenticated()">
+        <tr th:each="event : ${listEvents}">
+          <td th:text="${event.eventTitle}"></td>
+          <td th:text="${event.eventDescription}"></td>
+          <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy')}"></td>
+          <td th:text="${#temporals.format(event.dueDate, 'dd/MM/yyyy')}"></td>
+
+          <td th:if="${!ifSearchByCategory}">
+            <span th:each="category : ${event.categories}" th:text="${category.categoryName}"></span>
+          </td>
+
+          <td>
+            <a th:href="@{/showEventEditForm/{id}(id=${event.eventId})}" class="btn btn-primary">Edit</a>
+            <a th:href="@{/deleteEvent/{id}(id=${event.eventId})}" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -144,7 +178,6 @@
         Back to Categories
       </button>
     </div>
-
 
   </div>
 </body>
