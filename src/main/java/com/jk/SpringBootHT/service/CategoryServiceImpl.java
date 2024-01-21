@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (optional.isPresent()){
             category = optional.get();
         } else {
-            throw new RuntimeException(" Category not found by id :: " + id);
+            throw new RuntimeException(" Category not found by id: " + id);
         }
         return category;
     }
