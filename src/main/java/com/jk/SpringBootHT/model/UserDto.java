@@ -3,9 +3,9 @@ package com.jk.SpringBootHT.model;
 import jakarta.validation.constraints.NotEmpty;
 
 public class UserDto {
-    @NotEmpty
+    @NotEmpty(message = "Username is mandatory")
     private String username;
-    @NotEmpty(message = "Password shouldn't be empty")
+    @NotEmpty(message = "Password is mandatory")
     private String plainPassword;
 
     public UserDto(String username, String plainPassword) {

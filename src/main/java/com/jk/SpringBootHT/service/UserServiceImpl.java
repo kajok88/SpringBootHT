@@ -12,14 +12,15 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private IUserRepository userRepository;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        // user.setPasswordHash(passwordEncoder.encode(userDto.getPlainPassword()));
+        user.setPasswordHash(passwordEncoder.encode(userDto.getPlainPassword()));
+        user.setRole("USER");
         userRepository.save(user);
     }
 
