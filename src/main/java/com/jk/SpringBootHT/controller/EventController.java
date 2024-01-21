@@ -2,7 +2,9 @@ package com.jk.SpringBootHT.controller;
 
 import com.jk.SpringBootHT.entity.Category;
 import com.jk.SpringBootHT.entity.Event;
+import com.jk.SpringBootHT.entity.EventCategory;
 import com.jk.SpringBootHT.service.CategoryService;
+import com.jk.SpringBootHT.service.EventCategoryService;
 import com.jk.SpringBootHT.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class EventController {
     private EventService eventService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private EventCategoryService eventCategoryService;
+
     @GetMapping("/")
     public String showEvents(Model model) {
         model.addAttribute("listEvents", eventService.getAllEvents());
@@ -39,6 +44,27 @@ public class EventController {
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "list_events";  // Assuming you have a Thymeleaf template named "error"
+        }
+    }
+
+    @GetMapping("listEventsByCategory/{id}")
+    public String listEventsByCategory(@PathVariable(value = "id") long id, Model model)  {
+        try {
+            Category category = categoryService.getCategoryById(id);
+            List<EventCategory> eventCategoriesByCategory = (eventCategoryService.getEventCategoriesByCategoryId(id));
+            List<Event> events = new ArrayList<>();
+
+            for (EventCategory eventId : eventCategoriesByCategory) {
+                Event fetchedEvent = eventService.getEventById(eventId.getEventId());
+                events.add(fetchedEvent);
+            }
+
+            model.addAttribute("listEvents", events);
+            model.addAttribute("category", category);
+            return "category_by_name";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "list_categories";
         }
 
     }
