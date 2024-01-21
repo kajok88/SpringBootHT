@@ -60,26 +60,28 @@ public class AuthController {
 //        return "redirect:/signUp?success";
 //    }
     @PostMapping("/signUp/save")
-    public String signUp(@Valid @ModelAttribute("user") UserDto userDto, Model model, BindingResult result) {
-        // Your existing code to check username availability
+    public String signUp(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            // If there are validation errors, return to sign-up page
+            return "sign_up";
+        }
+
+        // Check for an existing username
         if (userService.findByUsername(userDto.getUsername()) != null) {
             model.addAttribute("errorMessage", "Username already taken!");
             return "sign_up";
         }
 
-        // Still gives whitelabel error page when inputting empty fields, WIP
+        // Save user if everything is fine
         try {
             userService.saveUser(userDto);
-
             model.addAttribute("successMessage", "Sign up success!");
             return "sign_up";
-        } catch (RuntimeException e){
-            if(result.hasErrors()){
-                model.addAttribute("successMessage", result.getAllErrors());
-                return "sign_up";
-            }
+        } catch (RuntimeException e) {
+            // Handle other runtime exceptions
+            model.addAttribute("errorMessage", "Error during sign up: " + e.getMessage());
+            return "sign_up";
         }
-        return "sign_up";
     }
 //    @PostMapping("/signUp/save")
 //    public ResponseEntity<String> signUp(@RequestBody UserDto userDto){
