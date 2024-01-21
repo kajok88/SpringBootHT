@@ -85,7 +85,6 @@ public class EventController {
     public String saveEvent(@ModelAttribute("event") Event event,
                             @RequestParam("categoryName") String categoryName) {
 
-        // Luodaan tai tuodaan kategoria annetulla nimellä
         Category category = categoryService.getCategoryByName(categoryName);
 
         // Alustetaan kategoria -lista eventille ja lisätään siihen kategoria
