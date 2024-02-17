@@ -1,5 +1,6 @@
 package com.jk.SpringBootHT.entity;
 
+import com.jk.SpringBootHT.model.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +20,9 @@ public class User implements Serializable, UserDetails {
     @Column(name = "password_hash")
     private String passwordHash;
     @Column(name = "user_role")
-    private String role;
+    private Role role;
 
-    public User(Long userId, String username, String passwordHash, String role) {
+    public User(Long userId, String username, String passwordHash, Role role) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -86,11 +87,11 @@ public class User implements Serializable, UserDetails {
         this.passwordHash = passwordHash;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
