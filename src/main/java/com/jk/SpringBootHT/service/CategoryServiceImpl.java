@@ -20,13 +20,20 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+
+        // Noudetaan nykyisen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        // Palautetaan kaikki kirjautuneen käyttäjän kategoriat
+        Long userId = userService.getUserIdByUsername(currentUsername);
+        return categoryRepository.findByUserId(userId);
     }
 
     @Override
     public void saveCategory(Category category){
 
-        // Noudetaan nykyisen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
+        // Noudetaan kirjautuneen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
 

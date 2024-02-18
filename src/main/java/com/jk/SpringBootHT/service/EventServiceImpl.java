@@ -21,11 +21,18 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+
+        // Noudetaan nykyisen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        // Palautetaan kaikki kirjautuneen käyttäjän eventit
+        Long userId = userService.getUserIdByUsername(currentUsername);
+        return eventRepository.findByUserId(userId);
     }
     public void saveEvent(Event event) {
 
-        // Noudetaan nykyisen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
+        // Noudetaan kirjautuneen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
 
