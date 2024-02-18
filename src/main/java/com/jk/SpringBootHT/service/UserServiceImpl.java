@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
+    public Long getUserIdByUsername(String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.map(User::getUserId).orElse(null);
+    }
 
     @Override
     public void saveUser(UserDto userDto) {

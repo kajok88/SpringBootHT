@@ -6,7 +6,10 @@ import com.jk.SpringBootHT.entity.EventCategory;
 import com.jk.SpringBootHT.service.CategoryService;
 import com.jk.SpringBootHT.service.EventCategoryService;
 import com.jk.SpringBootHT.service.EventService;
+import com.jk.SpringBootHT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,8 @@ public class EventController {
     private CategoryService categoryService;
     @Autowired
     private EventCategoryService eventCategoryService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String showEvents(Model model) {
@@ -84,6 +89,18 @@ public class EventController {
     @PostMapping("/saveOrUpdateEvent")
     public String saveEvent(@ModelAttribute("event") Event event,
                             @RequestParam("categoryName") String categoryName) {
+
+        // Fetching the current user's authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Getting the username from the authentication object
+        String currentUsername = authentication.getName();
+
+        // Assuming you have a method to retrieve the user ID by username
+        Long userId = userService.getUserIdByUsername(currentUsername);
+
+        // Set the user_id for the event
+        event.setUserId(userId);
 
         Category category = categoryService.getCategoryByName(categoryName);
 
