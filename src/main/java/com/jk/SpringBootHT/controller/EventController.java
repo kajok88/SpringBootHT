@@ -8,8 +8,6 @@ import com.jk.SpringBootHT.service.EventCategoryService;
 import com.jk.SpringBootHT.service.EventService;
 import com.jk.SpringBootHT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +24,7 @@ public class EventController {
     private CategoryService categoryService;
     @Autowired
     private EventCategoryService eventCategoryService;
-    @Autowired
-    private UserService userService;
+
 
     @GetMapping("/")
     public String showEvents(Model model) {

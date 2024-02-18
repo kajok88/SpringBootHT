@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class EncoderConfig {
+
+    // Määritellään encoder, jota käytetään mm. salasanojen suolaamiseen + hashaamiseen.
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
