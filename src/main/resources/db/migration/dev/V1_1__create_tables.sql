@@ -4,19 +4,22 @@
 
 
 -- Users table to store user information
-CREATE TABLE IF NOT EXISTS users
-(
+CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    user_role VARCHAR(255) NOT NULL,
-    -- Add other user-related fields as needed
     CONSTRAINT unique_username UNIQUE (username)
     );
 
+-- Roles table to store roles
+CREATE TABLE IF NOT EXISTS roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    CONSTRAINT unique_role UNIQUE (name)
+    );
+
 -- Categories table to store different event categories
-CREATE TABLE IF NOT EXISTS categories
-(
+CREATE TABLE IF NOT EXISTS categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     category_name VARCHAR(255) NOT NULL,
@@ -25,8 +28,7 @@ CREATE TABLE IF NOT EXISTS categories
     );
 
 -- Events table to store diary entries and calendar events
-CREATE TABLE IF NOT EXISTS events
-(
+CREATE TABLE IF NOT EXISTS events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     event_title VARCHAR(255) NOT NULL,
@@ -38,13 +40,21 @@ CREATE TABLE IF NOT EXISTS events
     );
 
 -- Junction table to represent the many-to-many relationship between events and categories
-CREATE TABLE IF NOT EXISTS event_categories
-(
+CREATE TABLE IF NOT EXISTS event_categories (
     event_id INT,
     category_id INT,
     PRIMARY KEY (event_id, category_id),
     FOREIGN KEY (event_id) REFERENCES events(event_id),
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    );
+
+-- Junction table to represent the many-to-many relationship between users and roles
+CREATE TABLE IF NOT EXISTS users_roles (
+    user_id INT,
+    role_id INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
     );
 
 
