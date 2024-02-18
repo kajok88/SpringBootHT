@@ -8,6 +8,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,10 +24,16 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     // handler method to handle home page request
     @GetMapping("/login")
-    public String login(){
+    public String login(@RequestBody UserDto userDto){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                userDto.getUsername(), userDto.getPlainPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "login";
     }
 
