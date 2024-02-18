@@ -67,7 +67,7 @@ public class AuthController {
         }
 
         // Check for an existing username
-        if (userService.findByUsername(userDto.getUsername()) != null) {
+        if (userService.findByUsername(userDto.getUsername()).isPresent()) {
             model.addAttribute("errorMessage", "Username already taken!");
             return "sign_up";
         }

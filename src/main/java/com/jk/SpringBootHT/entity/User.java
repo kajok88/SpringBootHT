@@ -6,10 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable, UserDetails {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -18,19 +19,23 @@ public class User implements Serializable, UserDetails {
     private String username;
     @Column(name = "password_hash")
     private String passwordHash;
-    @Column(name = "user_role")
-    private String role;
 
-    public User(Long userId, String username, String passwordHash, String role) {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+
+
+    public User(Long userId, String username, String passwordHash, Set<Role> roles) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
-        this.role = role;
+        this.roles = roles;
     }
 
-    public User() {
-
-    }
+    public User() {}
 
     public Long getUserId() {
         return userId;
@@ -40,38 +45,8 @@ public class User implements Serializable, UserDetails {
         this.userId = userId;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 
     public void setUsername(String username) {
@@ -86,13 +61,14 @@ public class User implements Serializable, UserDetails {
         this.passwordHash = passwordHash;
     }
 
-    public String getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 
 }
+

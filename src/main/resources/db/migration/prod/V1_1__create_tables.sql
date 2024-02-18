@@ -13,10 +13,20 @@ BEGIN
         user_id INT PRIMARY KEY IDENTITY(1,1),
         username VARCHAR(255) NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
-        user_role VARCHAR(255) NOT NULL,
         -- Add other user-related fields as needed
         CONSTRAINT unique_username UNIQUE (username)
     );
+END
+
+-- Roles table to store roles
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'roles')
+BEGIN
+CREATE TABLE roles
+(
+    role_id INT PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(255) NOT NULL,
+    CONSTRAINT unique_role UNIQUE (name)
+);
 END
 
 -- Categories table to store different event categories
@@ -59,4 +69,17 @@ BEGIN
         FOREIGN KEY (event_id) REFERENCES events(event_id),
         FOREIGN KEY (category_id) REFERENCES categories(category_id)
     );
+END
+
+-- Junction table to represent the many-to-many relationship between users and roles
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'users_roles')
+BEGIN
+CREATE TABLE users_roles
+(
+    user_id INT,
+    role_id INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
 END
