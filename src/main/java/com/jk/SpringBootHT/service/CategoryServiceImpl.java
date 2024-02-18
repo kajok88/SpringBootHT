@@ -3,6 +3,8 @@ package com.jk.SpringBootHT.service;
 import com.jk.SpringBootHT.entity.Category;
 import com.jk.SpringBootHT.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,8 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Autowired
     private ICategoryRepository categoryRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<Category> getAllCategories(){
@@ -21,7 +25,16 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void saveCategory(Category category){
-        this.categoryRepository.save(category);
+
+        // Noudetaan nykyisen käyttäjän authentikaatio objekti, ja siitä käyttäjänimi
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        // Asetetaan uudelle kategorialle käyttäjän ID.
+        Long userId = userService.getUserIdByUsername(currentUsername);
+        category.setUserId(userId);
+
+        categoryRepository.save(category);
     }
 
     @Override

@@ -90,18 +90,6 @@ public class EventController {
     public String saveEvent(@ModelAttribute("event") Event event,
                             @RequestParam("categoryName") String categoryName) {
 
-        // Fetching the current user's authentication object
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Getting the username from the authentication object
-        String currentUsername = authentication.getName();
-
-        // Assuming you have a method to retrieve the user ID by username
-        Long userId = userService.getUserIdByUsername(currentUsername);
-
-        // Set the user_id for the event
-        event.setUserId(userId);
-
         Category category = categoryService.getCategoryByName(categoryName);
 
         // Alustetaan kategoria -lista eventille ja lisätään siihen kategoria
