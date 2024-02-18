@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,10 +21,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
+
+//    @Autowired
+//    private DataSource dataSource;
 
     @Autowired
-    private DataSource dataSource;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,8 +40,15 @@ public class SecurityConfig{
                 )
                 .formLogin(withDefaults());
         return http.build();
-    }
 
+    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
+    }
+}
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.jdbcAuthentication()
@@ -56,11 +70,11 @@ public class SecurityConfig{
 //        }
 //    }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, UserServiceImpl userService, PasswordEncoder passwordEncoder) throws Exception {
-        //#####################     Custom UserDetailsService Authentication      #####################
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-    }}
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth, UserServiceImpl userService, PasswordEncoder passwordEncoder) throws Exception {
+//        //#####################     Custom UserDetailsService Authentication      #####################
+//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+//    }}
 //
 //
 //@Configuration

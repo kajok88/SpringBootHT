@@ -60,3 +60,16 @@ BEGIN
         FOREIGN KEY (category_id) REFERENCES categories(category_id)
     );
 END
+
+-- Junction table to represent the many-to-many relationship between events and categories
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'event_categories')
+BEGIN
+CREATE TABLE event_categories
+(
+    event_id INT,
+    category_id INT,
+    PRIMARY KEY (event_id, category_id),
+    FOREIGN KEY (event_id) REFERENCES events(event_id),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+END

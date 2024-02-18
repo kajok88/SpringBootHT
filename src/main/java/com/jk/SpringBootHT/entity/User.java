@@ -1,16 +1,18 @@
 package com.jk.SpringBootHT.entity;
 
-import com.jk.SpringBootHT.model.Role;
+import com.jk.SpringBootHT.entity.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable, UserDetails {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -19,18 +21,22 @@ public class User implements Serializable, UserDetails {
     private String username;
     @Column(name = "password_hash")
     private String passwordHash;
-    @Column(name = "user_role")
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
+    private List<Role> roles = new ArrayList<>();
 
-    public User(Long userId, String username, String passwordHash, Role role) {
+    public User() {
+    }
+
+
+    public User(Long userId, String username, String passwordHash, List<Role> roles) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
-        this.role = role;
-    }
-
-    public User() {
-
+        this.roles = roles;
     }
 
     public Long getUserId() {
@@ -41,38 +47,8 @@ public class User implements Serializable, UserDetails {
         this.userId = userId;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 
     public void setUsername(String username) {
@@ -87,13 +63,12 @@ public class User implements Serializable, UserDetails {
         this.passwordHash = passwordHash;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
-
 
 }
