@@ -18,23 +18,11 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    // handler method to handle home page request
+    // return custom login page for spring security
     @GetMapping("/login")
-    public String login(@RequestBody UserDto userDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                userDto.getUsername(), userDto.getPlainPassword()));
+    public String login(){return "login";}
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "login";
-    }
-
-    @GetMapping("/logout")
-    public String logout(){
-        return "logout";
-    }
 
     // handler method to handle user registration form request
     @GetMapping("/signUp")

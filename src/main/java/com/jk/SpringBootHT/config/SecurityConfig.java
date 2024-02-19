@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -24,7 +25,12 @@ public class SecurityConfig{
                 .authorizeHttpRequests((authorize) -> authorize
                         .anyRequest().permitAll()
                 )
-                .formLogin(withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login"))
+                .logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                );
         return http.build();
     }
 
