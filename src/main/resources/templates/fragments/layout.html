@@ -6,26 +6,38 @@
 <title>Layout</title>
 </head>
 <body>
-  <header th:fragment="header">
-    <nav class="navbar navbar-dark fixed-top bg-primary mb-4">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Write It Down</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
-            <a th:href="@{/listEvents}" class="nav-link" href="#">Notes</a>
-            <a th:href="@{/listCategories}" class="nav-link" href="#">Categories</a>
+<header th:fragment="header">
+  <nav class="navbar navbar-dark fixed-top bg-primary mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Write It Down</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a th:href="@{/}" class="nav-link active" aria-current="page" href="#">Home</a>
+          <a th:href="@{/listEvents}" class="nav-link" href="#">Notes</a>
+          <a th:href="@{/listCategories}" class="nav-link" href="#">Categories</a>
+
+          <!-- If the user is authenticated, display the username -->
+          <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex justify-content-center">
+            <span class="nav-link text-light">Logged in as:
+              <span th:text="${#authentication.principal.username}"></span></span>
+            <a th:href="@{/logout}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
+          </div>
+
+          <!-- If not authenticated, display these buttons -->
+          <div th:unless="${#authorization.expression('isAuthenticated()')}" class="d-flex justify-content-center">
             <a th:href="@{/signUp}" class="btn btn-primary"><span class="fa fa-user"></span> Sign Up</a>
             <a th:href="@{/login}" class="btn btn-primary"><span class="fa fa-lock"></span> Login</a>
-            <a th:href="@{/logout}" class="btn btn-primary"><span class="fa fa-unlock"></span> Logout</a>
           </div>
         </div>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
   <div>
 
   </div>
