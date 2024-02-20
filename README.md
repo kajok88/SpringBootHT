@@ -4,7 +4,7 @@ ___
 ## Suunnitelma
 
 Ideana oli alunperin toteuttaa muistiinpano-sovellus, johon on myös mahdollista
-liittää kuvia tekstin lisäksi ja frontend Reactilla. Muistiinpanot voidaan tallentaa paikalliselle
+liittää kuvia tekstin lisäksi ja frontend Reactilla. Muistiinpanot voidaan tallentaa tietokantaan paikalliselle
 MSSQL serverille tai H2 tietokantaan. Kokonaisvaltainen toiminallisuus löytyy käyttöliittymöstä selaimen
 puolelta osoitteesta: http://localhost:8074/.
 
@@ -40,8 +40,9 @@ harjoitustyön kanssa.
 - Yksittäisen eventin näyttäminen path-muuttujien avulla
 - Kategoriatagit kategorioille
 
-## Huom.
-> Jos jos käytössä on LocalTime.now() -funktio ajan generoimiseen ja ohjelmaa käytetään klo 00 - 01 välisenä aikana, tulee ongelmia hibernaten kanssa,
-> kun se yrittää muuttaa SQL Time:n LocalTime:ksi. Päädyin siis käyttämään javacriptiä.
-> 
-> Aiheesta lisää: https://discourse.hibernate.org/t/hibernate-incorrectly-converting-sql-time-to-localtime-between-12am-and-1am-only-if-using-localtime-now/7866
+## Muuta
+
+- > Vaikeinta oli saada Spring Securityn määritteleminen niin, että auhtentikointi toimii tietokannassa olevia käyttäjiä vasten, varsinkin kun websecurityconfigureradapter on deprikoitunut, ja aiheesta oli suhteellisen vähän tietoa.
+
+- > Jos jos käytössä on LocalTime.now() -funktio ajan generoimiseen ja ohjelmaa käytetään klo 00 - 01 välisenä aikana, tulee ongelmia hibernaten kanssa,  kun se yrittää muuttaa SQL Time:n LocalTime:ksi. Päädyin siis käyttämään javacriptiä ajan generoimiseen.
+Aiheesta lisää: https://discourse.hibernate.org/t/hibernate-incorrectly-converting-sql-time-to-localtime-between-12am-and-1am-only-if-using-localtime-now/7866
